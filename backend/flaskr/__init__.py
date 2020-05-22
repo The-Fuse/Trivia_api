@@ -3,17 +3,20 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import random
-from utils import get_paginated_questions
 
 from models import setup_db, Question, Category
 
+from utils import get_paginated_questions
+
 QUESTIONS_PER_PAGE = 10
 
+
 def create_app(test_config=None):
-  # create and configure the app
+    # create and configure the app
     app = Flask(__name__)
     setup_db(app)
-  # Set up CORS. Allow '*' for origins.
+
+    # Set up CORS. Allow '*' for origins.
     CORS(app, resources={'/': {'origins': '*'}})
 
     # Use the after_request decorator to set Access-Control-Allow
@@ -32,7 +35,11 @@ def create_app(test_config=None):
 
     @app.route('/categories')
     def get_all_categories():
-       
+        """Get categories endpoint
+
+        This endpoint returns all categories or
+        status code 500 if there is a server error
+        """
 
         try:
             categories = Category.query.all()
@@ -52,9 +59,9 @@ def create_app(test_config=None):
 
     @app.route('/questions')
     def get_questions():
-       
+      
 
-        # get paginated questions and categories
+      
         questions = Question.query.order_by(Question.id).all()
         total_questions = len(questions)
         categories = Category.query.order_by(Category.id).all()
@@ -82,7 +89,11 @@ def create_app(test_config=None):
 
     @app.route('/questions/<int:id>', methods=['DELETE'])
     def delete_question(id):
-        
+        """Delete specific question
+
+        This endpoint deletes a specific question by the
+        id given as a url parameter
+        """
         try:
             question = Question.query.get(id)
             question.delete()
@@ -96,7 +107,7 @@ def create_app(test_config=None):
 
     @app.route('/questions', methods=['POST'])
     def create_question():
-        
+     
         # Get json data from request
         data = request.get_json()
 
@@ -136,7 +147,6 @@ def create_app(test_config=None):
     def search_questions():
       
 
-        # Get search term from request data
         data = request.get_json()
         search_term = data.get('searchTerm', '')
 
@@ -172,7 +182,7 @@ def create_app(test_config=None):
 
     @app.route('/categories/<int:id>/questions')
     def get_questions_by_category(id):
-     
+       
 
         # get the category by id
         category = Category.query.filter_by(id=id).one_or_none()
@@ -198,7 +208,7 @@ def create_app(test_config=None):
 
     @app.route('/quizzes', methods=['POST'])
     def play_quiz_question():
-      
+        """This returns a random question to play quiz."""
 
         # process the request data and get the values
         data = request.get_json()
@@ -274,9 +284,6 @@ def create_app(test_config=None):
             'success': False,
             'error': 422,
             'message': 'Unprocessable entity'
-        }), 422  
-
+        }), 422
 
     return app
-
-    
