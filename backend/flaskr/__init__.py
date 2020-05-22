@@ -32,10 +32,7 @@ def create_app(test_config=None):
 
     @app.route('/categories')
     def get_all_categories():
-        """Get categories endpoint
-        This endpoint returns all categories or
-        status code 500 if there is a server error
-        """
+       
 
         try:
             categories = Category.query.all()
@@ -55,12 +52,7 @@ def create_app(test_config=None):
 
     @app.route('/questions')
     def get_questions():
-        """Get paginated questions
-        This endpoint gets a list of paginated questions based
-        on the page query string parameter and returns a 404
-        when the page is out of bound
-        QUESTIONS_PER_PAGE is a global variable
-        """
+       
 
         # get paginated questions and categories
         questions = Question.query.order_by(Question.id).all()
@@ -90,10 +82,7 @@ def create_app(test_config=None):
 
     @app.route('/questions/<int:id>', methods=['DELETE'])
     def delete_question(id):
-        """Delete specific question
-        This endpoint deletes a specific question by the
-        id given as a url parameter
-        """
+        
         try:
             question = Question.query.get(id)
             question.delete()
@@ -107,10 +96,7 @@ def create_app(test_config=None):
 
     @app.route('/questions', methods=['POST'])
     def create_question():
-        """This endpoint creates a question.
-        A 422 status code is returned if the any of
-        the json data is empty.
-        """
+        
         # Get json data from request
         data = request.get_json()
 
@@ -148,7 +134,7 @@ def create_app(test_config=None):
 
     @app.route('/questions/search', methods=['POST'])
     def search_questions():
-        """This endpoint returns questions from a search term. """
+      
 
         # Get search term from request data
         data = request.get_json()
@@ -186,7 +172,7 @@ def create_app(test_config=None):
 
     @app.route('/categories/<int:id>/questions')
     def get_questions_by_category(id):
-        """This endpoint handles getting questions by category"""
+     
 
         # get the category by id
         category = Category.query.filter_by(id=id).one_or_none()
@@ -212,7 +198,7 @@ def create_app(test_config=None):
 
     @app.route('/quizzes', methods=['POST'])
     def play_quiz_question():
-        """This returns a random question to play quiz."""
+      
 
         # process the request data and get the values
         data = request.get_json()
