@@ -128,7 +128,7 @@ The error codes currently returned are:
         "categories": {
             "1": "Science", 
             "2": "Art", 
-            "3": "Geography", 
+            "3": "Mechanics", 
             "4": "History", 
             "5": "Entertainment", 
             "6": "Sports"
